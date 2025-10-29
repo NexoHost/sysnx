@@ -30,10 +30,40 @@ Synx se basa en una arquitectura cliente-servidor ligera:
 ---
 
 ## Instalación
-
-```bash
-Descarga el archivo y usa:
-mdkir NexoHost
+# Crear carpeta del proyecto y entrar en ella
+mkdir NexoHost
 cd NexoHost
+
+# Instalar dependencias del backend
 npm install
+
+# Entrar al frontend
+cd Frontend
+
+# Descomprimir dashboard
+unzip dashboard.zip
+
+# Instalar dependencias del frontend y ejecutar
+npm install
+npm run dev
+# Luego abre dos terminales:
+# Terminal 1 (backend)
+cd NexoHost
 node src/server.js
+
+# Terminal 2 (frontend)
+# Ya está ejecutando npm run dev desde el paso anterior
+
+# Terminal 1 (backend)
+cd NexoHost
+node src/server.js
+
+# Terminal 2 (frontend)
+# Ya está ejecutando npm run dev desde el paso anterior
+
+
+
+
+
+
+
