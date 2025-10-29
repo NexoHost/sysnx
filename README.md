@@ -4,9 +4,9 @@
 
 ---
 ![Imagen1](https://github.com/NexoHost/sysnx/blob/main/images/image1.png?raw=true)
-![Imagen1](https://github.com/NexoHost/sysnx/blob/main/images/image2.png?raw=true)
-![Imagen1](https://github.com/NexoHost/sysnx/blob/main/images/image3.png?raw=true)
-![Imagen1](https://github.com/NexoHost/sysnx/blob/main/images/image4.png?raw=true)
+![Imagen1](https://github.com/NexoHost/sysnx/blob/main/images/imagen2.png?raw=true)
+![Imagen1](https://github.com/NexoHost/sysnx/blob/main/images/imagen3.png?raw=true)
+![Imagen1](https://github.com/NexoHost/sysnx/blob/main/images/imagen4.png?raw=true)
 
 ## Características principales
 
