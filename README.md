@@ -3,20 +3,18 @@
 **Synx** es un software avanzado de monitorización de VPS que ofrece visibilidad completa del estado y rendimiento de tus servidores virtuales. Permite supervisar en tiempo real CPU, RAM, almacenamiento y red, así como métricas de procesos y servicios críticos, todo directamente en un frontend interactivo.
 
 ---
-![Imagen1](https://github.com/NexoHost/sysnx/blob/main/images/image1.png?raw=true)
-![Imagen1](https://github.com/NexoHost/sysnx/blob/main/images/imagen2.png?raw=true)
-![Imagen1](https://github.com/NexoHost/sysnx/blob/main/images/imagen3.png?raw=true)
-![Imagen1](https://github.com/NexoHost/sysnx/blob/main/images/imagen4.png?raw=true)
 
 ## Características principales
 
-- **Monitorización en tiempo real**: Visualiza al instante CPU, RAM, disco y red mediante WebSocket.  
+- **Monitorización en tiempo real**: Visualiza al instante CPU, RAM, disco y red mediante WebSocket.
+- ![Imagen1](https://github.com/NexoHost/sysnx/blob/main/images/image1.png?raw=true)
+- ![Imagen1](https://github.com/NexoHost/sysnx/blob/main/images/imagen2.png?raw=true)
 - **API REST completa**: Consulta métricas desde otras aplicaciones o scripts sin necesidad de almacenamiento.  
 - **Alertas instantáneas**: Recibe notificaciones inmediatas según el uso de recursos.  
 - **Frontend intuitivo**: Panel interactivo con gráficos y estadísticas en tiempo real.  
 - **Compatibilidad multiplataforma**: Funciona en Linux y Windows.  
 - **Ligero y eficiente**: No requiere base de datos; todo se muestra en tiempo real.  
-
+![Imagen1](https://github.com/NexoHost/sysnx/blob/main/images/imagen4.png?raw=true)
 ---
 
 ## Cómo funciona
