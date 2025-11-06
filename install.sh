@@ -23,18 +23,29 @@ if ! command -v node &> /dev/null; then
     sudo apt-get install -y nodejs
 fi
 
-# Crear directorio
-INSTALL_DIR="$HOME/vps-monitor"
+# Crear directorio principal
+sudo mkdir -p /var/www/nexohost
+INSTALL_DIR="/var/www/nexohost"
 print_status "Creando directorio: $INSTALL_DIR"
 
-[ -d "$INSTALL_DIR" ] && rm -rf "$INSTALL_DIR"
-mkdir -p "$INSTALL_DIR/src"
-cd "$INSTALL_DIR"
+# Crear directorio backend
+[ -d "$INSTALL_DIR/backend" ] && sudo rm -rf "$INSTALL_DIR/backend"
+sudo mkdir -p "$INSTALL_DIR/backend/src"
+
+# Descargar e instalar frontend
+print_status "Descargando frontend..."
+cd /tmp
+wget -O dashboardv0.2.zip https://github.com/NexoHost/sysnx/releases/download/V0.2/dashboardv0.2.zip
+sudo mkdir -p "$INSTALL_DIR/Frontend"
+sudo unzip -o dashboardv0.2.zip -d "$INSTALL_DIR/Frontend/"
+rm dashboardv0.2.zip
+
+cd "$INSTALL_DIR/backend"
 
 # Crear package.json
-cat > package.json << 'EOF'
+sudo tee package.json > /dev/null << 'EOF'
 {
-  "name": "vps-monitor",
+  "name": "nexohost",
   "version": "1.0.0",
   "main": "src/server.js",
   "dependencies": {
@@ -46,7 +57,7 @@ cat > package.json << 'EOF'
 EOF
 
 # Crear server.js
-cat > src/server.js << 'EOF'
+sudo tee src/server.js > /dev/null << 'EOF'
 const express = require('express');
 const cors = require('cors');
 const { exec } = require('child_process');
@@ -170,20 +181,45 @@ EOF
 
 # Instalar dependencias
 print_status "Instalando dependencias..."
-npm install
+sudo npm install
 
-# Crear servicio systemd
-print_status "Configurando servicio..."
-sudo tee /etc/systemd/system/vps-monitor.service > /dev/null << EOF
+# Instalar dependencias del frontend
+print_status "Instalando dependencias del frontend..."
+cd "$INSTALL_DIR/Frontend"
+sudo npm install
+
+# Crear servicios systemd
+print_status "Configurando servicios..."
+
+# Servicio backend
+sudo tee /etc/systemd/system/nexohost-backend.service > /dev/null << EOF
 [Unit]
-Description=VPS Monitor
+Description=NexoHost Backend
 After=network.target
 
 [Service]
 Type=simple
-User=$USER
-WorkingDirectory=$INSTALL_DIR
+User=root
+WorkingDirectory=$INSTALL_DIR/backend
 ExecStart=/usr/bin/node src/server.js
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+# Servicio frontend
+sudo tee /etc/systemd/system/nexohost-frontend.service > /dev/null << EOF
+[Unit]
+Description=NexoHost Frontend
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=$INSTALL_DIR/Frontend
+ExecStart=/usr/bin/npm run dev
 Restart=always
 RestartSec=10
 
@@ -195,29 +231,33 @@ EOF
 if command -v ufw &> /dev/null; then
     sudo ufw allow 4040/tcp
     sudo ufw allow 4041/tcp
+    sudo ufw allow 3000/tcp
 fi
 
-# Iniciar servicio
+# Iniciar servicios
 sudo systemctl daemon-reload
-sudo systemctl enable vps-monitor
-sudo systemctl start vps-monitor
+sudo systemctl enable nexohost-backend
+sudo systemctl enable nexohost-frontend
+sudo systemctl start nexohost-backend
+sudo systemctl start nexohost-frontend
 
-sleep 2
-if sudo systemctl is-active --quiet vps-monitor; then
+sleep 3
+if sudo systemctl is-active --quiet nexohost-backend && sudo systemctl is-active --quiet nexohost-frontend; then
     IP=$(hostname -I | awk '{print $1}')
-    print_status "✅ VPS Monitor API instalado!"
+    print_status "✅ NexoHost instalado!"
     echo ""
-    echo "📊 API: http://$IP:4040"
+    echo "📊 Backend: http://$IP:4040"
     echo "🔌 WebSocket: ws://$IP:4041"
+    echo "🌐 Frontend: http://$IP:3000"
     echo ""
-    echo "Endpoints disponibles:"
-    echo "  GET  /resources  - Recursos del sistema"
-    echo "  GET  /processes  - Lista de procesos"
-    echo "  GET  /network    - Información de red"
-    echo "  GET  /cron       - Tareas cron"
-    echo "  POST /terminal   - Ejecutar comandos"
+    echo "Comandos útiles:"
+    echo "  sudo systemctl status nexohost-backend"
+    echo "  sudo systemctl status nexohost-frontend"
+    echo "  sudo systemctl restart nexohost-backend"
+    echo "  sudo systemctl restart nexohost-frontend"
 else
     print_error "❌ Error en instalación"
-    sudo systemctl status vps-monitor
+    sudo systemctl status nexohost-backend
+    sudo systemctl status nexohost-frontend
     exit 1
 fi
