@@ -7,12 +7,14 @@
 ## Características principales
 
 - **Monitorización en tiempo real**: Visualiza al instante CPU, RAM, disco y red mediante WebSocket.
-- ![Imagen1](https://github.com/NexoHost/sysnx/blob/main/images/image1.png?raw=true)
+  
+  ![Imagen1](https://github.com/NexoHost/sysnx/blob/main/images/image1.png?raw=true)
 - **API REST completa**: Consulta métricas desde otras aplicaciones o scripts sin necesidad de almacenamiento.  
 - **Alertas instantáneas**: Recibe notificaciones inmediatas según el uso de recursos.  
 - **Frontend intuitivo**: Panel interactivo con gráficos y estadísticas en tiempo real.  
 - **Compatibilidad multiplataforma**: Funciona en Linux y Windows.  
-- **Ligero y eficiente**: No requiere base de datos; todo se muestra en tiempo real.  
+- **Ligero y eficiente**: No requiere base de datos; todo se muestra en tiempo real.
+  
 ![Imagen1](https://github.com/NexoHost/sysnx/blob/main/images/imagen4.png?raw=true)
 ---
 
@@ -31,4 +33,8 @@ Synx se basa en una arquitectura cliente-servidor ligera:
 
 ## Instalación
 Ejecuta el install.sh con ''bash install.sh'' y listo 
-Luego debes ejecutar node src/server.js y en el frontend npm run build && npm start aunque el install.sh debe hacerlo automaticamente sudo tee /etc/systemd/system/vps-monitor.service > /dev/null << EOF
+Comandos útiles:
+  sudo systemctl status nexohost-backend
+  sudo systemctl status nexohost-frontend
+  sudo systemctl restart nexohost-backend
+  sudo systemctl restart nexohost-frontend
